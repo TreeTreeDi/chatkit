@@ -44,3 +44,10 @@ body {
 .cursor-blink {
   animation: blink 1s infinite;
 }
+
+/* 旋转动画 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

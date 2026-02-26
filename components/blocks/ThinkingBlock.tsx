@@ -9,7 +9,7 @@ interface ThinkingBlockProps {
 
 export const ThinkingBlock: React.FC<ThinkingBlockProps> = ({ blockId }) => {
   const block = useBlock(blockId)
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(true)
 
   if (!block) return null
 
@@ -19,9 +19,10 @@ export const ThinkingBlock: React.FC<ThinkingBlockProps> = ({ blockId }) => {
     <div
       style={{
         marginBottom: '16px',
-        border: '1px solid #e0e0e0',
+        border: `1px solid ${isThinking ? '#a5b4fc' : '#e0e0e0'}`,
         borderRadius: '8px',
         overflow: 'hidden',
+        transition: 'border-color 0.3s',
       }}
     >
       {/* 可折叠的头部 */}
@@ -29,18 +30,33 @@ export const ThinkingBlock: React.FC<ThinkingBlockProps> = ({ blockId }) => {
         onClick={() => setExpanded(!expanded)}
         style={{
           padding: '12px 16px',
-          background: '#f9f9f9',
+          background: isThinking ? '#eef2ff' : '#f9f9f9',
           cursor: 'pointer',
           userSelect: 'none',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+          transition: 'background 0.3s',
         }}
       >
-        <span style={{ fontWeight: 500 }}>
+        {isThinking && (
+          <span
+            style={{
+              display: 'inline-block',
+              width: '14px',
+              height: '14px',
+              border: '2px solid #6366f1',
+              borderTopColor: 'transparent',
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite',
+              flexShrink: 0,
+            }}
+          />
+        )}
+        <span style={{ fontWeight: 500, color: isThinking ? '#4f46e5' : '#374151' }}>
           {isThinking ? '正在思考...' : '思考过程'}
         </span>
-        <span style={{ marginLeft: 'auto', fontSize: '12px' }}>
+        <span style={{ marginLeft: 'auto', fontSize: '12px', color: '#6b7280' }}>
           {expanded ? '▼' : '▶'}
         </span>
       </div>
@@ -50,8 +66,9 @@ export const ThinkingBlock: React.FC<ThinkingBlockProps> = ({ blockId }) => {
         <div
           style={{
             padding: '16px',
-            borderTop: '1px solid #e0e0e0',
+            borderTop: `1px solid ${isThinking ? '#a5b4fc' : '#e0e0e0'}`,
             background: '#fafafa',
+            transition: 'border-color 0.3s',
           }}
         >
           <Markdown content={block.content} />
@@ -63,7 +80,7 @@ export const ThinkingBlock: React.FC<ThinkingBlockProps> = ({ blockId }) => {
                 display: 'inline-block',
                 width: '8px',
                 height: '16px',
-                background: '#666',
+                background: '#6366f1',
                 marginLeft: '2px',
               }}
             >
